@@ -7,7 +7,7 @@ Do not modify this file unless you are an advanced user.
   (function() {
     async function fetchCartSettings() {
       try {
-        const response = await fetch(`https://{your-app-proxy-url}/proxy/settings`);
+        const response = await fetch(`https://sticky-cart-firebase.vercel.app/proxy/settings`);
         if (!response.ok) throw new Error('Failed to fetch settings');
         window.STICKY_CART_SETTINGS = await response.json();
         console.log('[Sticky Cart] Settings loaded successfully.');

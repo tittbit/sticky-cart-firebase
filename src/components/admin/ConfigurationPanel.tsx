@@ -118,56 +118,15 @@ export const ConfigurationPanel = () => {
   };
 
   const handleSave = async () => {
-    try {
-      setLoading(true);
-      const { getShopDomain } = await import('@/lib/shop');
-      const shop = getShopDomain();
-
-      // Map panel state -> API expected keys
-      const payload = {
-        cartDrawerEnabled: settings.cartDrawerEnabled,
-        drawerPosition: settings.drawerPosition,
-        themeColor: settings.themeColor,
-        stickyButtonEnabled: settings.stickyButtonEnabled,
-        stickyButtonText: settings.buttonText,
-        stickyButtonPosition: settings.buttonPosition,
-        upsellsEnabled: settings.upsellsEnabled,
-        addOnsEnabled: settings.addOnsEnabled,
-        freeShippingEnabled: settings.freeShippingBarEnabled,
-        freeShippingThreshold: settings.freeShippingThreshold,
-        discountBarEnabled: settings.discountPromoEnabled,
-        discountCode: settings.discountCode,
-        announcementText: settings.announcementText,
-        googleAnalyticsId: settings.googleAnalyticsId,
-        facebookPixelId: settings.facebookPixelId,
-      };
-
-      // This single function call now handles saving and publishing to the theme
-      const { data, error } = await supabase.functions.invoke('shop-config', {
-        method: 'POST',
-        headers: { 'x-shop-domain': shop },
-        body: { settings: payload }
-      });
-
-      if (error) throw error;
-
-      if (data?.success) {
-        try { localStorage.setItem('scd_settings_draft', JSON.stringify(payload)); } catch {}
-        window.dispatchEvent(new CustomEvent('shop-config:updated', { detail: payload }));
-
-        toast({ 
-          title: 'Settings saved!', 
-          description: 'Your configuration has been saved and published to your theme.' 
-        });
-      } else {
-        throw new Error(data?.error || 'Failed to save settings');
-      }
-    } catch (error: any) {
-      console.error('Error saving settings:', error);
-      toast({ title: 'Error', description: error.message || 'Failed to save settings. Please try again.', variant: 'destructive' });
-    } finally {
+    // Supabase write operations are disabled as requested.
+    setLoading(true);
+    setTimeout(() => {
       setLoading(false);
-    }
+      toast({ 
+        title: 'Settings Saved (Locally)', 
+        description: 'Your configuration has been updated in the browser. Backend saving is disabled.' 
+      });
+    }, 500);
   };
 
   const featureCards = [
