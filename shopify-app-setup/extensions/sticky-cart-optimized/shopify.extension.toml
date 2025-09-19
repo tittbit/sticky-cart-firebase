@@ -1,0 +1,12 @@
+uid = "ff317845-039d-2580-7b02-0bcf4ef67b39be1ee31f"
+type = "theme"
+name = "Sticky Cart Optimized"
+handle = "sticky-cart-optimized"
+
+[[blocks]]
+type = "@block"
+name = "Sticky Cart Initializer"
+target = "body"
+
+[blocks.settings]
+file = "snippets/sticky-cart-initializer.liquid"
