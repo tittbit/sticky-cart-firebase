@@ -6,9 +6,28 @@ Do not modify this file unless you are an advanced user.
 <script>
   (function() {
     async function fetchCartSettings() {
+      const shopDomain = window.Shopify?.shop;
+      if (!shopDomain) {
+        console.error('[Sticky Cart] Shop domain not found. Cannot fetch settings.');
+        // Use fallback settings.
+        window.STICKY_CART_SETTINGS = {
+          cartDrawerEnabled: {{ block.settings.enabled | default: true }},
+          themeColor: '#3B82F6',
+          stickyButton: { enabled: true, position: 'bottom-right', text: 'Cart' },
+          freeShipping: { enabled: false, threshold: 100 }
+        };
+        // Dispatch event anyway to not block the flow.
+        document.dispatchEvent(new CustomEvent('stickyCartSettingsLoaded'));
+        return;
+      }
+
       try {
-        const response = await fetch(`https://sticky-cart-firebase.vercel.app/proxy/settings`);
-        if (!response.ok) throw new Error('Failed to fetch settings');
+        const response = await fetch(`https://sticky-cart-firebase.vercel.app/proxy/settings`, {
+          headers: {
+            'x-shop-domain': shopDomain
+          }
+        });
+        if (!response.ok) throw new Error(`Failed to fetch settings (${response.status})`);
         window.STICKY_CART_SETTINGS = await response.json();
         console.log('[Sticky Cart] Settings loaded successfully.');
       } catch (error) {

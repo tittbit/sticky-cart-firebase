@@ -123,8 +123,9 @@ export const ConfigurationPanel = () => {
     setTimeout(() => {
       setLoading(false);
       toast({ 
-        title: 'Settings Saved (Locally)', 
-        description: 'Your configuration has been updated in the browser. Backend saving is disabled.' 
+        title: 'Save Disabled', 
+        description: 'Saving to the database has been disabled. Settings are only stored locally in your browser.',
+        variant: 'destructive',
       });
     }, 500);
   };
@@ -221,7 +222,7 @@ export const ConfigurationPanel = () => {
 
               <div className="space-y-2">
                 <Label htmlFor="buttonPosition">Sticky Button Position</Label>
-                <Select value={settings.buttonPosition} onValueChange={(value) => handleSettingChange("buttonPosition", value)}>
+                <Select value={settings.buttonPosition} onValuechaChange={(value) => handleSettingChange("buttonPosition", value)}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
