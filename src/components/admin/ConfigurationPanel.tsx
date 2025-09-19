@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
@@ -31,7 +32,6 @@ export const ConfigurationPanel = () => {
     addOnsEnabled: true,
     freeShippingBarEnabled: true,
     discountPromoEnabled: false,
-    announcementsEnabled: true,
     
     // Thresholds and Values
     freeShippingThreshold: 75,
@@ -62,8 +62,9 @@ export const ConfigurationPanel = () => {
       setLoading(true);
       const { getShopDomain } = await import('@/lib/shop');
       const shop = getShopDomain();
-      // Persist for other pages
-      localStorage.setItem('shop_domain', shop);
+      if (shop) {
+        localStorage.setItem('shop_domain', shop);
+      }
 
       const { data } = await supabase.functions.invoke('shop-config', {
         method: 'GET',
@@ -95,7 +96,7 @@ export const ConfigurationPanel = () => {
           facebookPixelId: s.facebookPixelId || ''
         };
         setSettings(prev => {
-          const merged = { ...prev, ...mapped } as any;
+          const merged = { ...prev, ...mapped };
           try { localStorage.setItem('scd_settings_draft', JSON.stringify(merged)); } catch {}
           return merged;
         });
@@ -110,11 +111,12 @@ export const ConfigurationPanel = () => {
 
   const handleSettingChange = (key: string, value: any) => {
     setSettings(prev => {
-      const next = { ...prev, [key]: value } as any;
+      const next = { ...prev, [key]: value };
       try { localStorage.setItem('scd_settings_draft', JSON.stringify(next)); } catch {}
       return next;
     });
   };
+
   const handleSave = async () => {
     try {
       setLoading(true);
@@ -126,26 +128,21 @@ export const ConfigurationPanel = () => {
         cartDrawerEnabled: settings.cartDrawerEnabled,
         drawerPosition: settings.drawerPosition,
         themeColor: settings.themeColor,
-
         stickyButtonEnabled: settings.stickyButtonEnabled,
         stickyButtonText: settings.buttonText,
         stickyButtonPosition: settings.buttonPosition,
-
         upsellsEnabled: settings.upsellsEnabled,
         addOnsEnabled: settings.addOnsEnabled,
-
         freeShippingEnabled: settings.freeShippingBarEnabled,
         freeShippingThreshold: settings.freeShippingThreshold,
-
         discountBarEnabled: settings.discountPromoEnabled,
         discountCode: settings.discountCode,
         announcementText: settings.announcementText,
-
         googleAnalyticsId: settings.googleAnalyticsId,
         facebookPixelId: settings.facebookPixelId,
       };
 
-      // Save to database
+      // This single function call now handles saving and publishing to the theme
       const { data, error } = await supabase.functions.invoke('shop-config', {
         method: 'POST',
         headers: { 'x-shop-domain': shop },
@@ -155,90 +152,31 @@ export const ConfigurationPanel = () => {
       if (error) throw error;
 
       if (data?.success) {
-        // Generate local settings file for faster cart loading
-        const { data: settingsData, error: settingsError } = await supabase.functions.invoke('cart-settings-generator', {
-          method: 'POST',
-          headers: { 'x-shop-domain': shop },
-          body: { settings: payload }
-        });
-
-        if (settingsError) {
-          console.warn('Failed to generate settings file:', settingsError);
-        }
-
-        // Clear draft since persisted
         try { localStorage.setItem('scd_settings_draft', JSON.stringify(payload)); } catch {}
-        // Notify preview
         window.dispatchEvent(new CustomEvent('shop-config:updated', { detail: payload }));
+
         toast({ 
           title: 'Settings saved!', 
-          description: 'Your cart drawer configuration has been updated and optimized for fast loading.' 
+          description: 'Your configuration has been saved and published to your theme.' 
         });
       } else {
         throw new Error(data?.error || 'Failed to save settings');
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error saving settings:', error);
-      toast({ title: 'Error', description: 'Failed to save settings. Please try again.', variant: 'destructive' });
+      toast({ title: 'Error', description: error.message || 'Failed to save settings. Please try again.', variant: 'destructive' });
     } finally {
       setLoading(false);
     }
   };
+
   const featureCards = [
-    {
-      id: "cartDrawer",
-      title: "Cart Drawer",
-      description: "Modern slide-out cart with smooth animations",
-      icon: "🛒",
-      enabled: settings.cartDrawerEnabled,
-      key: "cartDrawerEnabled",
-      badge: "Core",
-    },
-    {
-      id: "stickyButton", 
-      title: "Sticky Cart Button",
-      description: "Persistent floating cart button with item count",
-      icon: "📌",
-      enabled: settings.stickyButtonEnabled,
-      key: "stickyButtonEnabled",
-      badge: null,
-    },
-    {
-      id: "upsells",
-      title: "Product Upsells",
-      description: "Show recommended products in cart",
-      icon: "💰",
-      enabled: settings.upsellsEnabled,
-      key: "upsellsEnabled",
-      badge: "AOV+",
-    },
-    {
-      id: "addOns",
-      title: "Add-On Products",
-      description: "Optional products like shipping insurance",
-      icon: "➕",
-      enabled: settings.addOnsEnabled,
-      key: "addOnsEnabled",
-      badge: null,
-    },
-    {
-      id: "freeShipping",
-      title: "Free Shipping Bar",
-      description: "Progress bar showing shipping threshold",
-      icon: "🚚",
-      enabled: settings.freeShippingBarEnabled,
-      key: "freeShippingBarEnabled",
-      badge: "Popular",
-    },
-    {
-      id: "discountPromo",
-      title: "Discount Promotions",
-      description: "Display and apply discount codes",
-      icon: "🎫",
-      enabled: settings.discountPromoEnabled,
-      key: "discountPromoEnabled",
-      badge: "Pro",
-    },
+    { id: "cartDrawer", title: "Cart Drawer", description: "Modern slide-out cart with smooth animations", icon: "🛒", enabled: settings.cartDrawerEnabled, key: "cartDrawerEnabled", badge: "Core" },
+    { id: "stickyButton", title: "Sticky Cart Button", description: "Persistent floating cart button with item count", icon: "📌", enabled: settings.stickyButtonEnabled, key: "stickyButtonEnabled", badge: null },
+    { id: "upsells", title: "Product Upsells", description: "Show recommended products in cart", icon: "💰", enabled: settings.upsellsEnabled, key: "upsellsEnabled", badge: "AOV+" },
+    { id: "addOns", title: "Add-On Products", description: "Optional products like shipping insurance", icon: "➕", enabled: settings.addOnsEnabled, key: "addOnsEnabled", badge: null },
+    { id: "freeShipping", title: "Free Shipping Bar", description: "Progress bar showing shipping threshold", icon: "🚚", enabled: settings.freeShippingBarEnabled, key: "freeShippingBarEnabled", badge: "Popular" },
+    { id: "discountPromo", title: "Discount Promotions", description: "Display and apply discount codes", icon: "🎫", enabled: settings.discountPromoEnabled, key: "discountPromoEnabled", badge: "Pro" },
   ];
 
   return (
@@ -251,7 +189,6 @@ export const ConfigurationPanel = () => {
       </TabsList>
 
       <TabsContent value="general" className="space-y-6">
-        {/* Feature Toggle Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           {featureCards.map((feature) => (
             <Card key={feature.id} className="card-gradient hover-lift">
@@ -284,9 +221,7 @@ export const ConfigurationPanel = () => {
           ))}
         </div>
 
-        {/* Detailed Configuration */}
         <div className="grid lg:grid-cols-2 gap-6">
-          {/* Cart Drawer Settings */}
           <Card className="form-section">
             <CardHeader>
               <CardTitle>Cart Drawer Appearance</CardTitle>
@@ -342,7 +277,6 @@ export const ConfigurationPanel = () => {
             </CardContent>
           </Card>
 
-          {/* Feature Settings */}
           <Card className="form-section">
             <CardHeader>
               <CardTitle>Feature Configuration</CardTitle>
@@ -393,7 +327,6 @@ export const ConfigurationPanel = () => {
           </Card>
         </div>
 
-        {/* Save Button */}
         <div className="flex justify-end">
           <Button onClick={handleSave} className="gradient-primary text-white px-8" disabled={loading}>
             {loading ? "Saving..." : "Save Configuration"}
@@ -416,7 +349,7 @@ export const ConfigurationPanel = () => {
             <CardDescription>
               Configure tracking and analytics integration
             </CardDescription>
-          </CardHeader>
+          </Header>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
