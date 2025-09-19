@@ -247,22 +247,15 @@ class OptimizedStickyCartDrawer {
 }
 
 function initializeCartDrawer() {
-  // Use a small timeout to ensure settings file has been loaded
-  setTimeout(() => {
-    if (window.STICKY_CART_SETTINGS) {
-      new OptimizedStickyCartDrawer(window.STICKY_CART_SETTINGS);
-    } else {
-      console.warn('[Sticky Cart] Settings not found, drawer not initialized. Retrying in 1s.');
-      // Retry in case of load order issues
-      setTimeout(() => {
-        if (window.STICKY_CART_SETTINGS) {
-          new OptimizedStickyCartDrawer(window.STICKY_CART_SETTINGS);
-        } else {
-           console.error('[Sticky Cart] Could not load settings. Drawer disabled.');
-        }
-      }, 1000);
-    }
-  }, 100);
+  if (window.STICKY_CART_SETTINGS) {
+    new OptimizedStickyCartDrawer(window.STICKY_CART_SETTINGS);
+  } else {
+    console.warn('[Sticky Cart] Settings not found, awaiting load event.');
+    document.addEventListener('stickyCartSettingsLoaded', () => {
+       console.log('[Sticky Cart] Settings loaded, initializing now.');
+       new OptimizedStickyCartDrawer(window.STICKY_CART_SETTINGS);
+    }, { once: true });
+  }
 }
 
 if (document.readyState === 'loading') {

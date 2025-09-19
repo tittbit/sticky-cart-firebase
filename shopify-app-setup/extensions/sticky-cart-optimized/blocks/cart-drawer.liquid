@@ -1,12 +1,12 @@
 {% comment %} App Embed to load Sticky Cart Drawer assets and expose settings {% endcomment %}
 
-{%- comment -%}
-Only expose enabled status - all other settings loaded from Supabase database
-{%- endcomment -%}
-<script>
-  window.CART_DRAWER_ENABLED = {{ block.settings.enabled | default: true | json }};
-  window.SHOP_DOMAIN = {{ shop.permanent_domain | json }};
-</script>
+{%- liquid
+  assign enabled = block.settings.enabled | default: true
+-%}
+
+{%- if enabled -%}
+  {%- render 'sticky-cart-initializer' -%}
+{%- endif -%}
 
 {% schema %}
 {
@@ -15,12 +15,12 @@ Only expose enabled status - all other settings loaded from Supabase database
   "javascript": "cart-drawer-optimized.js",
   "stylesheet": "cart-drawer.css",
   "settings": [
-    { 
-      "type": "checkbox", 
-      "id": "enabled", 
-      "label": "Enable Sticky Cart Drawer", 
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable Sticky Cart Drawer",
       "default": true,
-      "info": "All settings are configured from the app dashboard. This only enables/disables the cart drawer."
+      "info": "All other settings are now managed from your app dashboard. Use this checkbox to quickly enable or disable the cart drawer in your theme."
     }
   ]
 }

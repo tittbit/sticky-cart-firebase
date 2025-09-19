@@ -176,7 +176,7 @@ export const ConfigurationPanel = () => {
     { id: "upsells", title: "Product Upsells", description: "Show recommended products in cart", icon: "💰", enabled: settings.upsellsEnabled, key: "upsellsEnabled", badge: "AOV+" },
     { id: "addOns", title: "Add-On Products", description: "Optional products like shipping insurance", icon: "➕", enabled: settings.addOnsEnabled, key: "addOnsEnabled", badge: null },
     { id: "freeShipping", title: "Free Shipping Bar", description: "Progress bar showing shipping threshold", icon: "🚚", enabled: settings.freeShippingBarEnabled, key: "freeShippingBarEnabled", badge: "Popular" },
-    { id: "discountPromo", title: "Discount Promotions", description: "Display and apply discount codes", icon: "🎫", enabled: settings.discountPromoEnabled, key: "discountPromoEnabled", badge: "Pro" },
+    { id: "discountPromo", title: "Discount Promotions", description: "Display and apply discount codes", icon: "🎫", enabled: settings.discountPromoEnabled, key: "discountPromoEnabled", badge: "Pro" }
   ];
 
   return (
@@ -349,7 +349,7 @@ export const ConfigurationPanel = () => {
             <CardDescription>
               Configure tracking and analytics integration
             </CardDescription>
-          </Header>
+          </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="googleAnalyticsId">Google Analytics ID</Label>
