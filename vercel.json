@@ -1,0 +1,20 @@
+{
+  "functions": {
+    "build/index.js": {
+      "maxDuration": 30
+    }
+  },
+  "routes": [
+    {
+      "src": "/apps/cart-drawer/(.*)",
+      "dest": "/app/proxy.settings"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/build/index.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}

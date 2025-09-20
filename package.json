@@ -1,0 +1,57 @@
+{
+  "name": "sticky-cart-drawer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "remix build",
+    "dev": "shopify app dev",
+    "config:link": "shopify app config link",
+    "config:use": "shopify app config use",
+    "deploy": "shopify app deploy",
+    "docker-start": "npm run setup && npm run start",
+    "setup": "prisma generate && prisma migrate deploy",
+    "start": "remix-serve build/index.js",
+    "typecheck": "tsc --noEmit",
+    "codegen": "shopify app generate schema"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.15.0",
+    "@remix-run/node": "^2.8.1",
+    "@remix-run/react": "^2.8.1",
+    "@remix-run/serve": "^2.8.1",
+    "@shopify/admin-api-client": "^0.2.2",
+    "@shopify/app-bridge-react": "^4.1.2",
+    "@shopify/cli": "^3.58.0",
+    "@shopify/polaris": "^12.0.0",
+    "@shopify/shopify-app-remix": "^2.8.0",
+    "@shopify/shopify-app-session-storage-prisma": "^4.0.5",
+    "@supabase/supabase-js": "^2.39.7",
+    "isbot": "^4.1.0",
+    "prisma": "^5.15.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.8.1",
+    "@types/react": "^18.2.31",
+    "@types/react-dom": "^18.2.14",
+    "typescript": "^5.1.6",
+    "vite": "^5.1.0"
+  },
+  "workspaces": [
+    "extensions/*"
+  ],
+  "trustedDependencies": [
+    "@shopify/plugin-cloudflare"
+  ],
+  "resolutions": {
+    "undici": "6.13.0"
+  },
+  "overrides": {
+    "undici": "6.13.0"
+  },
+  "engines": {
+    "node": ">=18.20 || >=20.10"
+  }
+}

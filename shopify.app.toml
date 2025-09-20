@@ -1,0 +1,32 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+name = "Sticky Cart Drawer"
+client_id = "1229371464a27a473aef0354d0671dfb"
+application_url = "https://sticky-cart-firebase.vercel.app"
+embedded = true
+
+[build]
+automatically_update_urls_on_dev = true
+dev_store_url = "dimestore-test.myshopify.com"
+include_config_on_deploy = true
+
+[access_scopes]
+scopes = "write_themes,write_script_tags,read_products,read_orders,write_cart_transforms"
+
+[auth]
+redirect_urls = [
+  "https://sticky-cart-firebase.vercel.app/auth/callback",
+  "https://sticky-cart-firebase.vercel.app/auth/shopify/callback",
+  "https://sticky-cart-firebase.vercel.app/api/auth/callback"
+]
+
+[webhooks]
+api_version = "2024-01"
+
+[pos]
+embedded = false
+
+[app_proxy]
+url = "https://sticky-cart-firebase.vercel.app"
+subpath = "tools/cart-drawer"
+prefix = "apps"
