@@ -5,10 +5,10 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration
-} from "/build/_shared/chunk-RS7RGJOC.js";
+} from "/build/_shared/chunk-SZWTPZZO.js";
 import {
   createHotContext
-} from "/build/_shared/chunk-U5E2PCIK.js";
+} from "/build/_shared/chunk-POY62M5B.js";
 import "/build/_shared/chunk-UWV35TSL.js";
 import "/build/_shared/chunk-U4FRFQSK.js";
 import {
@@ -27,7 +27,7 @@ if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   prevRefreshReg = window.$RefreshReg$;
   prevRefreshSig = window.$RefreshSig$;
   window.$RefreshReg$ = (type, id) => {
-    window.$RefreshRuntime$.register(type, '"app/root.jsx"' + id);
+    window.$RefreshRuntime$.register(type, '"app\\\\root.jsx"' + id);
   };
   window.$RefreshSig$ = window.$RefreshRuntime$.createSignatureFunctionForTransform;
 }
@@ -36,9 +36,9 @@ var prevRefreshSig;
 if (import.meta) {
   import.meta.hot = createHotContext(
     //@ts-expect-error
-    "app/root.jsx"
+    "app\\root.jsx"
   );
-  import.meta.hot.lastModified = "1758399259606";
+  import.meta.hot.lastModified = "1758380316000";
 }
 function App() {
   return /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)("html", { children: [
@@ -108,4 +108,4 @@ window.$RefreshSig$ = prevRefreshSig;
 export {
   App as default
 };
-//# sourceMappingURL=/build/root-ZHD65ZOC.js.map
+//# sourceMappingURL=/build/root-67OI3SB5.js.map

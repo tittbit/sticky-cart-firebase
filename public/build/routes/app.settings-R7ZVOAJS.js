@@ -2,7 +2,7 @@ import {
   useLoaderData,
   useNavigation,
   useSubmit
-} from "/build/_shared/chunk-RS7RGJOC.js";
+} from "/build/_shared/chunk-SZWTPZZO.js";
 import {
   Badge,
   Banner,
@@ -23,7 +23,7 @@ import {
 } from "/build/_shared/chunk-YJPRSLSW.js";
 import {
   createHotContext
-} from "/build/_shared/chunk-U5E2PCIK.js";
+} from "/build/_shared/chunk-POY62M5B.js";
 import "/build/_shared/chunk-UWV35TSL.js";
 import "/build/_shared/chunk-U4FRFQSK.js";
 import {
@@ -46,7 +46,7 @@ if (!window.$RefreshReg$ || !window.$RefreshSig$ || !window.$RefreshRuntime$) {
   prevRefreshReg = window.$RefreshReg$;
   prevRefreshSig = window.$RefreshSig$;
   window.$RefreshReg$ = (type, id) => {
-    window.$RefreshRuntime$.register(type, '"app/routes/app.settings.jsx"' + id);
+    window.$RefreshRuntime$.register(type, '"app\\\\routes\\\\app.settings.jsx"' + id);
   };
   window.$RefreshSig$ = window.$RefreshRuntime$.createSignatureFunctionForTransform;
 }
@@ -56,9 +56,9 @@ var _s = $RefreshSig$();
 if (import.meta) {
   import.meta.hot = createHotContext(
     //@ts-expect-error
-    "app/routes/app.settings.jsx"
+    "app\\routes\\app.settings.jsx"
   );
-  import.meta.hot.lastModified = "1758399192625";
+  import.meta.hot.lastModified = "1758380316000";
 }
 function Settings() {
   _s();
@@ -1018,4 +1018,4 @@ window.$RefreshSig$ = prevRefreshSig;
 export {
   Settings as default
 };
-//# sourceMappingURL=/build/routes/app.settings-6ZCULWCY.js.map
+//# sourceMappingURL=/build/routes/app.settings-R7ZVOAJS.js.map
