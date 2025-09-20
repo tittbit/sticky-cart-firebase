@@ -12,7 +12,6 @@ import {
   Checkbox,
   TextField,
   Select,
-  ResourcePicker,
   ColorPicker,
   Divider,
   Banner,
@@ -20,13 +19,21 @@ import {
   Modal,
   Badge,
 } from "@shopify/polaris";
-import { useState as usePolaris } from "@shopify/polaris";
 
 export const loader = async ({ request }) => {
   const { admin, session } = await authenticate.admin(request);
 
   // Load current settings from Supabase
   try {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+      console.warn('Supabase credentials not configured');
+      return { 
+        settings: null, 
+        shopDomain: session.shop,
+        error: 'Database not configured' 
+      };
+    }
+    
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
@@ -61,6 +68,10 @@ export const action = async ({ request }) => {
   const settings = JSON.parse(formData.get("settings"));
 
   try {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+      return { success: false, error: 'Database not configured' };
+    }
+    
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
@@ -81,7 +92,7 @@ export const action = async ({ request }) => {
 
     // Update cached settings in Shopify metafields for performance
     try {
-      const admin = await authenticate.admin(request);
+      const { admin } = await authenticate.admin(request);
       const metafield = new admin.admin.rest.resources.Metafield({
         session: admin.session,
       });
@@ -222,9 +233,12 @@ export default function Settings() {
 
                   <div>
                     <Text as="h3" variant="headingSm">Theme Color</Text>
-                    <ColorPicker
-                      color={settings.themeColor}
-                      onChange={(color) => handleSettingChange('themeColor', color.hex)}
+                    <TextField
+                      label="Theme Color (Hex)"
+                      value={settings.themeColor}
+                      onChange={(value) => handleSettingChange('themeColor', value)}
+                      placeholder="#000000"
+                      helpText="Enter a hex color code (e.g., #000000)"
                     />
                   </div>
                 </BlockStack>

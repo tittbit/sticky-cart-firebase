@@ -12,6 +12,11 @@ export const action = async ({ request }) => {
       
       // Clean up Supabase data
       try {
+        if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+          console.warn('Supabase credentials not found, skipping cleanup');
+          break;
+        }
+        
         const { createClient } = await import('@supabase/supabase-js');
         const supabase = createClient(
           process.env.SUPABASE_URL,

@@ -1,4 +1,7 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "installCommand": "npm install",
   "functions": {
     "build/index.js": {
       "maxDuration": 30
@@ -6,8 +9,12 @@
   },
   "routes": [
     {
-      "src": "/apps/cart-drawer/(.*)",
+      "src": "/apps/cart-drawer/api/(.*)",
       "dest": "/app/proxy.settings"
+    },
+    {
+      "src": "/cart-drawer.js",
+      "dest": "/cart-drawer.js"
     },
     {
       "src": "/(.*)",
@@ -16,5 +23,11 @@
   ],
   "env": {
     "NODE_ENV": "production"
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/apps/cart-drawer/api/settings",
+      "destination": "/app/proxy.settings"
+    }
+  ]
 }

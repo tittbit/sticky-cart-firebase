@@ -9,6 +9,44 @@ export const loader = async ({ request }) => {
   }
 
   try {
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+      console.warn('Supabase credentials not configured, using defaults');
+      const defaultSettings = {
+        cartEnabled: true,
+        drawerPosition: 'right',
+        themeColor: '#000000',
+        stickyButtonEnabled: true,
+        stickyButtonText: 'Cart',
+        stickyButtonPosition: 'bottom-right',
+        upsellsEnabled: false,
+        upsellProducts: [],
+        addOnsEnabled: false,
+        addOnProducts: [],
+        freeShippingEnabled: false,
+        freeShippingThreshold: 50,
+        discountEnabled: false,
+        discountCode: '',
+        announcementEnabled: false,
+        announcementText: '',
+        fbPixelId: '',
+        googleAdsId: '',
+      };
+      
+      return json({
+        settings: defaultSettings,
+        lastUpdated: new Date().toISOString(),
+        success: true,
+        fallback: true
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Cache-Control': 'public, max-age=60'
+        }
+      });
+    }
+    
     const { createClient } = await import('@supabase/supabase-js');
     const supabase = createClient(
       process.env.SUPABASE_URL,
@@ -23,7 +61,40 @@ export const loader = async ({ request }) => {
 
     if (error) {
       console.error('Error fetching settings:', error);
-      return json({ error: 'Settings not found' }, { status: 404 });
+      // Return default settings if not found
+      const defaultSettings = {
+        cartEnabled: true,
+        drawerPosition: 'right',
+        themeColor: '#000000',
+        stickyButtonEnabled: true,
+        stickyButtonText: 'Cart',
+        stickyButtonPosition: 'bottom-right',
+        upsellsEnabled: false,
+        upsellProducts: [],
+        addOnsEnabled: false,
+        addOnProducts: [],
+        freeShippingEnabled: false,
+        freeShippingThreshold: 50,
+        discountEnabled: false,
+        discountCode: '',
+        announcementEnabled: false,
+        announcementText: '',
+        fbPixelId: '',
+        googleAdsId: '',
+      };
+      
+      return json({
+        settings: defaultSettings,
+        lastUpdated: new Date().toISOString(),
+        success: true
+      }, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+          'Cache-Control': 'public, max-age=300'
+        }
+      });
     }
 
     return json({
@@ -40,7 +111,41 @@ export const loader = async ({ request }) => {
     });
   } catch (error) {
     console.error('Error connecting to database:', error);
-    return json({ error: 'Database connection failed' }, { status: 500 });
+    // Return default settings on database error
+    const defaultSettings = {
+      cartEnabled: true,
+      drawerPosition: 'right',
+      themeColor: '#000000',
+      stickyButtonEnabled: true,
+      stickyButtonText: 'Cart',
+      stickyButtonPosition: 'bottom-right',
+      upsellsEnabled: false,
+      upsellProducts: [],
+      addOnsEnabled: false,
+      addOnProducts: [],
+      freeShippingEnabled: false,
+      freeShippingThreshold: 50,
+      discountEnabled: false,
+      discountCode: '',
+      announcementEnabled: false,
+      announcementText: '',
+      fbPixelId: '',
+      googleAdsId: '',
+    };
+    
+    return json({
+      settings: defaultSettings,
+      lastUpdated: new Date().toISOString(),
+      success: true,
+      fallback: true
+    }, {
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Cache-Control': 'public, max-age=60'
+      }
+    });
   }
 };
 

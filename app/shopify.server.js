@@ -53,6 +53,12 @@ async function createScriptTag(admin) {
 async function initializeDefaultSettings(shopDomain) {
   try {
     const { createClient } = await import('@supabase/supabase-js');
+    
+    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+      console.warn('Supabase credentials not found, skipping settings initialization');
+      return;
+    }
+    
     const supabase = createClient(
       process.env.SUPABASE_URL,
       process.env.SUPABASE_KEY

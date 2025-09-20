@@ -32,7 +32,7 @@
   // Load settings from app proxy
   async function loadSettings() {
     try {
-      const response = await fetch(`/apps/cart-drawer/api/settings?shop=${shopDomain}`);
+      const response = await fetch(`/apps/cart-drawer/api/settings?shop=${encodeURIComponent(shopDomain)}`);
       const data = await response.json();
       
       if (data.success) {
@@ -50,7 +50,19 @@
         themeColor: '#000000',
         stickyButtonEnabled: true,
         stickyButtonText: 'Cart',
-        stickyButtonPosition: 'bottom-right'
+        stickyButtonPosition: 'bottom-right',
+        upsellsEnabled: false,
+        upsellProducts: [],
+        addOnsEnabled: false,
+        addOnProducts: [],
+        freeShippingEnabled: false,
+        freeShippingThreshold: 50,
+        discountEnabled: false,
+        discountCode: '',
+        announcementEnabled: false,
+        announcementText: '',
+        fbPixelId: '',
+        googleAdsId: ''
       };
     }
   }
@@ -979,7 +991,7 @@
   function checkForUpdates() {
     setInterval(async () => {
       try {
-        const response = await fetch(`/apps/cart-drawer/api/settings?shop=${shopDomain}`);
+        const response = await fetch(`/apps/cart-drawer/api/settings?shop=${encodeURIComponent(shopDomain)}`);
         const data = await response.json();
         
         if (data.success && data.lastUpdated !== lastSettingsUpdate) {
