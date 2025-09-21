@@ -1,6 +1,5 @@
-import { LoaderFunctionArgs } from "@remix-run/node";
 import { authenticate } from "../shopify.server";
 
-export const loader = async ({ request }: LoaderFunctionArgs) => {
+export const loader = async ({ request }) => {
   return authenticate.admin(request);
 };
