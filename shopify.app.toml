@@ -1,8 +1,8 @@
 # Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "1229371464a27a473aef0354d0671dfb"
+client_id = "${SHOPIFY_API_KEY}"
 name = "sticky-cart-firebase"
-application_url = "https://sticky-cart-firebase.vercel.app"
+application_url = "${SHOPIFY_APP_URL}"
 embedded = true
 
 [build]
@@ -27,12 +27,12 @@ scopes = "read_orders,read_products,write_products,write_script_tags,write_theme
 
 [auth]
 redirect_urls = [
-  "https://sticky-cart-firebase.vercel.app/auth/callback",
-  "https://sticky-cart-firebase.vercel.app/auth/shopify/callback"
+  "${SHOPIFY_APP_URL}/auth/callback",
+  "${SHOPIFY_APP_URL}/auth/shopify/callback"
 ]
 
 [app_proxy]
-url = "https://sticky-cart-firebase.vercel.app/proxy"
+url = "${SHOPIFY_APP_URL}/proxy"
 subpath = "cart-drawer"
 prefix = "tools"
 

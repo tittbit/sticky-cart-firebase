@@ -1,0 +1,21 @@
+my credentials required for this are, use them wherever needed
+
+# Shopify App Configuration
+SHOPIFY_API_KEY=1229371464a27a473aef0354d0671dfb
+SHOPIFY_API_SECRET=76158bfc3707b146b5c68ba0eee08fc7
+SCOPES=write_themes,write_script_tags,read_products,read_orders,write_cart_transforms
+SHOPIFY_APP_URL=https://sticky-cart-firebase.vercel.app
+
+# Database
+DATABASE_URL="file:./dev.sqlite"
+
+# Supabase Configuration
+SUPABASE_URL=https://mjfzxmpscndznuaeoxft.supabase.co
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVrZ21vd3VueXpzZXd4d215ZGxiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgxODkwNTIsImV4cCI6MjA3Mzc2NTA1Mn0.SP1Rc1dX-Ib30-4eTX4h07mTLNGnSz-oDvk3e9SoWPk
+
+and supabase database url is if needed any where
+postgresql://postgres:Pd2zCGRybpXWncpr@db.mjfzxmpscndznuaeoxft.supabase.co:5432/postgres
+
+
+and database url for supabase is 
+postgresql://postgres:Pd2zCGRybpXWncpr@db.mjfzxmpscndznuaeoxft.supabase.co:5432/postgres

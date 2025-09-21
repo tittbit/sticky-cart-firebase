@@ -2,11 +2,6 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
-  "functions": {
-    "build/index.js": {
-      "maxDuration": 30
-    }
-  },
   "env": {
     "NODE_ENV": "production"
   },
@@ -14,6 +9,10 @@
     {
       "source": "/apps/cart-drawer/api/(.*)",
       "destination": "/app/proxy.settings"
+    },
+    {
+      "source": "/cart-drawer.js",
+      "destination": "/cart-drawer.js"
     },
     {
       "source": "/(.*)",

@@ -46,7 +46,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\routes\\app.analytics.jsx"
   );
-  import.meta.hot.lastModified = "1758380316000";
+  import.meta.hot.lastModified = "1758407593000";
 }
 function Analytics() {
   _s();
@@ -246,4 +246,4 @@ window.$RefreshSig$ = prevRefreshSig;
 export {
   Analytics as default
 };
-//# sourceMappingURL=/build/routes/app.analytics-WLHXLVHN.js.map
+//# sourceMappingURL=/build/routes/app.analytics-LXLFY2MK.js.map

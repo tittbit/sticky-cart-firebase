@@ -58,7 +58,7 @@ if (import.meta) {
     //@ts-expect-error
     "app\\routes\\app.settings.jsx"
   );
-  import.meta.hot.lastModified = "1758380316000";
+  import.meta.hot.lastModified = "1758407593000";
 }
 function Settings() {
   _s();
@@ -1018,4 +1018,4 @@ window.$RefreshSig$ = prevRefreshSig;
 export {
   Settings as default
 };
-//# sourceMappingURL=/build/routes/app.settings-R7ZVOAJS.js.map
+//# sourceMappingURL=/build/routes/app.settings-OVV7PY3L.js.map
